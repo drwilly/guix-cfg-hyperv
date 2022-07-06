@@ -18,6 +18,10 @@
              (guix transformations)
              (guix gexp))
 
+(define (home-log name)
+        #~(string-append (or (getenv "XDG_LOG_HOME")
+                             (string-append (getenv "HOME") "/.log"))
+                         "/" #$name ".log"))
 (home-environment
  (packages
   (map (compose list specification->package+output)
@@ -100,14 +104,15 @@
                            (start #~(make-forkexec-constructor
                                      (list #$(file-append syncthing "/bin/syncthing")
                                            "-no-browser"
-                                           "-logflags=3" ;; prefix with date & time
-                                           (string-append "-logfile=" (getenv "HOME") "/.log/syncthing.log"))))
+                                           "-logflags=3") ;; prefix with date & time
+                                     #:log-file #$(home-log "syncthing")))
                            (stop #~(make-kill-destructor)))
                           (shepherd-service
                            (provision '(emacs))
                            (documentation "Run `emacs --daemon'")
                            (start #~(make-forkexec-constructor
                                      (list #$(file-append emacs "/bin/emacs")
-                                           "--fg-daemon")))
+                                           "--fg-daemon")
+                                     #:log-file #$(home-log "emacs")))
                            (stop #~(make-system-destructor "emacsclient -e '(kill-emacs)'"))
                            (respawn? #f)))))))
