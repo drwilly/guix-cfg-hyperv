@@ -46,7 +46,7 @@
                   (service alsa-service-type)
                   (modify-services %base-services
                                    (mingetty-service-type
-                                    config => (if (string=? "tty1" (mingetty-configuration-tty config))
+                                    config => (if (and #f (string=? "tty1" (mingetty-configuration-tty config))) ; auto login is broken.
                                                   (mingetty-configuration
                                                    (inherit config)
                                                    (auto-login "w"))
