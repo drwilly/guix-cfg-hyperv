@@ -54,6 +54,7 @@
                                    (guix-service-type
                                     config => (guix-configuration
                                                (inherit config)
+                                               ;; note that guix weather uses %default-substitute-urls regardless of the configuration here
                                                (substitute-urls
                                                 (cons* "https://substitutes.nonguix.org"
                                                        %default-substitute-urls))
