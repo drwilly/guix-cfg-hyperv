@@ -84,7 +84,7 @@
                     '(("PATH" . "$HOME/bin:$PATH")
                       ("EDITOR" . "$HOME/bin/e")
                       ("PAGER" . "$HOME/bin/p")
-                      ("VISUAL" . "'emacsclient -c'")
+                      ("VISUAL" . "emacsclient -c")
                       ("BAT_THEME" . "ansi")))
     (service home-xdg-user-directories-service-type
              (home-xdg-user-directories-configuration
